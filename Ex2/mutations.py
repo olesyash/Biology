@@ -1,5 +1,6 @@
-# Olesya Sharify, 319346565
-# Adi Aharoni, 211749361
+from Bio.Align import PairwiseAligner
+from Bio import SeqIO
+from itertools import combinations
 
 gencode = {
     'ATA':'I', 'ATC':'I', 'ATT':'I', 'ATG':'M',
@@ -54,4 +55,3 @@ def count_mutation_by_type(position,type):
         return find_synonymous(position)
 
 
-print(count_mutation_by_type(1, 'synonymous'))

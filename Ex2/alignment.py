@@ -100,11 +100,6 @@ if __name__ == "__main__":
     fasta_file = "ex2_sequences_a.fasta"
     org_lst = list(SeqIO.parse(fasta_file, "fasta"))
 
-    # Use the globalms function
-    alignments2 = create_alignments_with_globalms(org_lst)
-    for aligment in alignments2:
-        score = aligment[2][2]
-        print(f"\nComparison between {aligment[0]}. and {aligment[1]} using globalms, score is {score}")
 
     alignments = create_alignments(org_lst)
 
@@ -123,8 +118,8 @@ if __name__ == "__main__":
     with Entrez.efetch(db="nucleotide", id=["AF451972", "AF176731", "X90314"],
                        rettype="fasta") as handle:
         fasta_data = handle.read()
-        org_lst = list(SeqIO.parse(StringIO(fasta_data), "fasta"))
-        alignments = create_alignments(org_lst)
+        org_lst_festa = list(SeqIO.parse(StringIO(fasta_data), "fasta"))
+        alignments = create_alignments(org_lst_festa)
         scores = analyze_alignmented_sequences(alignments)
         comparisons = create_comparison_dict(alignments)
 
@@ -144,4 +139,43 @@ if __name__ == "__main__":
     for comp in test_comparisons:
         print(f"\nComparison between {comp['seq1_desc']} and {comp['seq2_desc']}:")
         print(comp)
+
+    # q3: alinment with other parameters:
+
+    alignmentsQ3org = create_alignments(org_lst, "global", 1, -1, -2, -1)
+    scoresQ3org = analyze_alignmented_sequences(alignmentsQ3org)
+    comparisonsQ3org = create_comparison_dict(alignmentsQ3org)
+    print()
+    print("*"*40)
+    print("Q3: trying alinment with parameters: match=1, mismatch=-1, gap=-2, extend_gap=-1")
+    print()
+    
+    # Print both types of results
+    for score_data in scoresQ3org:
+        print(f"{score_data[0]} VS {score_data[1]}: {score_data[2]}%")
+
+    for comp in comparisonsQ3org:
+        print(f"\nComparison between {comp['seq1_desc']} and {comp['seq2_desc']}:")
+        print(comp)
+
+
+    alignmentsQ3org_festa = create_alignments(org_lst_festa, "global", 1, -1, -2, -1)
+    scoresQ3org_festa = analyze_alignmented_sequences(alignmentsQ3org_festa)
+    comparisonsQ3org_festa = create_comparison_dict(alignmentsQ3org_festa)
+
+    print()
+    print()
+
+    # Print both types of results
+    for score_data in scoresQ3org_festa:
+        print(f"{score_data[0]} VS {score_data[1]}: {score_data[2]}%")
+
+    for comp in comparisonsQ3org_festa:
+        print(f"\nComparison between {comp['seq1_desc']} and {comp['seq2_desc']}:")
+        print(comp)
+
+    
+    
+
+
 
